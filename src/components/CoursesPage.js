@@ -21,6 +21,19 @@ function CoursesPage() {
 			setCoures(results);
 		}
 
+		async function asyncGetCoursesES2018() {
+			let _courses = await getCourses();
+			let results = [];
+
+			for await (const _course of _courses) {
+				let author = authorApi.getAuthorById(_course.authorId);
+				_course.author = author.name;
+				results.push(_course);
+			}
+			setCoures(results);
+
+		}
+
 		async function asyncGetCoursesParallel() {
 			let _courses = await getCourses();
 			let results = [];
@@ -34,7 +47,7 @@ function CoursesPage() {
 		}
 
     useEffect(() => {
-        asyncGetCoursesParallel()
+        asyncGetCoursesES2018()
       }, [])
     
     // useEffect(() => {
