@@ -26,7 +26,7 @@ function CoursesPage() {
 			let results = [];
 
 			for await (const _course of _courses) {
-				let author = authorApi.getAuthorById(_course.authorId);
+				let author = await authorApi.getAuthorById(_course.authorId);
 				_course.author = author.name;
 				results.push(_course);
 			}
