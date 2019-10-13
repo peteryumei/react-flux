@@ -1,8 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
+import * as authorApi from "../api/authorApi";
 
 function CourseList(props) {
+
+  async function getAuthor(id) {
+    return await authorApi.getAuthorById(id).then();
+  }
+
   return (
     <table className="table">
                 <thead>
@@ -19,7 +25,7 @@ function CourseList(props) {
                                 <td>
                                 <Link to={"/course/" + course.slug} >{course.title}</Link>
                                 </td> 
-                                <td>{course.authorId}</td>
+                                <td>{course.author}</td>
                                 <td>{course.category}</td>
                             </tr> 
                         );

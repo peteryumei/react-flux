@@ -5,19 +5,21 @@ import CoursesList from "./CourseList";
 import { Link } from "react-router-dom";
 
 function CoursesPage() {
-    const [courses, setCoures] = useState([]);
+		const [courses, setCoures] = useState([]);
+		
+		async function asyncGetCourses() {
+			let _courses = await getCourses();
+			let results = [];
+			for (const _course of _courses) {
+				let author = await authorApi.getAuthorById(_course.authorId);
+				_course.author = author.name;
+				results.push(_course);
+			}
+			setCoures(results);
+		}
 
     useEffect(() => {
-        getCourses().then(_courses => {
-          var results = [];
-          _courses.forEach(_course => {
-                    authorApi.getAuthorById(_course.authorId).then( data => {
-										_course.author = data.name;
-										results.push(_courses);
-                });
-            });          
-            setCoures(_courses);
-        });
+        asyncGetCourses()
       }, [])
     
     // useEffect(() => {
