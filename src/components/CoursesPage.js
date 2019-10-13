@@ -10,16 +10,31 @@ function CoursesPage() {
 		async function asyncGetCourses() {
 			let _courses = await getCourses();
 			let results = [];
+
+			await Promise.all(_courses.map(
+				async (_course) => {
+					let author = await authorApi.getAuthorById(_course.authorId);
+					_course.author = author.name;
+					results.push(_course);
+				}
+			))
+			setCoures(results);
+		}
+
+		async function asyncGetCoursesParallel() {
+			let _courses = await getCourses();
+			let results = [];
 			for (const _course of _courses) {
 				let author = await authorApi.getAuthorById(_course.authorId);
 				_course.author = author.name;
 				results.push(_course);
 			}
 			setCoures(results);
+
 		}
 
     useEffect(() => {
-        asyncGetCourses()
+        asyncGetCoursesParallel()
       }, [])
     
     // useEffect(() => {
