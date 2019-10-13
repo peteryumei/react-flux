@@ -7,6 +7,18 @@ export function getAuthors() {
     .catch(handleError);
 }
 
+export function getAuthorById(id) {
+  return fetch(baseUrl + "?id=" + id)
+    .then(response => {
+      if (!response.ok) throw new Error("Network response was not ok.");
+      return response.json().then(authors => {
+        if (authors.length !== 1) throw new Error("Course not found: " + id);
+        return authors[0]; // should only find one author for a given id, so return it.
+      });
+    })
+    .catch(handleError);
+}
+
 export function saveAuthor(author) {
   return fetch(baseUrl + (author.id || ""), {
     method: author.id ? "PUT" : "POST", // POST for create, PUT to update when id already exists.
