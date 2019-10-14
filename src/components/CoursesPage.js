@@ -55,7 +55,8 @@ function CoursesPage() {
 			}, [courses.length])
 			
 			function onChange() {
-				setCoures(courseStore.getCourses()); 
+				asyncGetCoursesES2018();
+				//setCoures(courseStore.getCourses()); 
 			}
     
     // useEffect(() => {
